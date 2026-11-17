@@ -1,24 +1,39 @@
-import './App.css'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import AppShell from './components/layout/AppShell'
+import HomePage from './pages/HomePage'
+import LoginPage from './pages/LoginPage'
+import './styles/global.css'
 
+/**
+ * Root router.
+ * Auth state and role-based nav links will be injected via context in Phase 2.
+ * For Phase 1 we wire up the shell and public routes.
+ */
 function App() {
-  return (
-    <div className="app-container">
-      <header className="app-header">
-        <div className="brand">
-          <span className="brand-logo-badge">TC</span>
-          <span className="brand-title">Transcage</span>
-        </div>
-      </header>
+  // Placeholder — replaced with real auth context in Phase 2
+  const user = null
+  const navLinks = []
+  const notifications = 0
 
-      <main className="app-main">
-        <div className="card welcome-card">
-          <h1 className="welcome-title">Transcage Workspace</h1>
-          <p className="welcome-subtitle">
-            Frontend template initialized and ready for development.
-          </p>
-        </div>
-      </main>
-    </div>
+  return (
+    <BrowserRouter>
+      <AppShell user={user} navLinks={navLinks} notifications={notifications}>
+        <Routes>
+          {/* Public routes */}
+          <Route path="/"       element={<HomePage />} />
+          <Route path="/login"  element={<LoginPage />} />
+
+          {/* Stubs for upcoming phases — redirect to home until built */}
+          <Route path="/register"   element={<Navigate to="/login" replace />} />
+          <Route path="/track"      element={<Navigate to="/" replace />} />
+          <Route path="/dashboard"  element={<Navigate to="/login" replace />} />
+          <Route path="/dev/*"      element={<Navigate to="/" replace />} />
+
+          {/* 404 fallback */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </AppShell>
+    </BrowserRouter>
   )
 }
 

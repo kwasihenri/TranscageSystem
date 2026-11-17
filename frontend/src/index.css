@@ -1,50 +1,54 @@
-:root {
-  /* Crisp native light palette */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8fafc;
-  --bg-tertiary: #f1f5f9;
-  --bg-hover: #e2e8f0;
+/* Google Fonts — Inter for UI text */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
-  --text-primary: #0f172a;
+:root {
+  /* ── Palette ─────────────────────────── */
+  --bg-primary:   #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary:  #f1f5f9;
+  --bg-hover:     #e2e8f0;
+
+  --text-primary:   #0f172a;
   --text-secondary: #475569;
-  --text-muted: #94a3b8;
+  --text-muted:     #94a3b8;
 
   --border-subtle: #e2e8f0;
   --border-medium: #cbd5e1;
   --border-strong: #94a3b8;
 
-  --accent: #1241a6;
-  --accent-hover: #1745c4;
-  --accent-light: #eff6ff;
+  --accent:        #1241a6;
+  --accent-hover:  #1745c4;
+  --accent-light:  #eff6ff;
   --accent-border: #bfdbfe;
 
-  --danger: #dc2626;
-  --danger-light: #fef2f2;
-  --success: #16a34a;
+  --danger:        #dc2626;
+  --danger-light:  #fef2f2;
+  --success:       #16a34a;
   --success-light: #f0fdf4;
-  --warning: #d97706;
+  --warning:       #d97706;
   --warning-light: #fffbeb;
 
-  /* Typography */
-  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  /* ── Typography ──────────────────────── */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono:   ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-  /* Subtle, crisp native rounding */
+  /* ── Rounding (subtle, native-app feel) ─ */
   --radius-xs: 2px;
   --radius-sm: 4px;
   --radius-md: 6px;
   --radius-lg: 8px;
 
-  /* Elevation */
+  /* ── Elevation ───────────────────────── */
   --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px -1px rgba(0, 0, 0, 0.08);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
 
-  /* Layout */
-  --header-height: 52px;
+  /* ── Layout ──────────────────────────── */
+  --header-height:     52px;
   --bottom-nav-height: 56px;
 }
 
+/* ── Reset ──────────────────────────────── */
 *,
 *::before,
 *::after {
@@ -92,4 +96,15 @@ textarea,
 select {
   font-family: inherit;
   font-size: inherit;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+ul,
+ol {
+  list-style: none;
 }
