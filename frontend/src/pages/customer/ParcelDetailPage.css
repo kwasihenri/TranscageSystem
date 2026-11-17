@@ -1,0 +1,249 @@
+/* =========================================================
+   ParcelDetailPage
+   ========================================================= */
+
+.detail-page {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* ── Sticky topbar ──────────────────────────────────────── */
+
+.detail-topbar {
+  position: sticky;
+  top: var(--header-height);
+  z-index: 10;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: var(--shadow-xs);
+}
+
+.detail-back-btn,
+.detail-share-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.12s;
+}
+
+.detail-back-btn:hover,
+.detail-share-btn:hover {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.detail-topbar-center {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.detail-topbar-id {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Body ───────────────────────────────────────────────── */
+
+.detail-body {
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── ID card ────────────────────────────────────────────── */
+
+.detail-id-card {}
+
+.detail-id-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.detail-id-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 4px;
+}
+
+.detail-id-code {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+}
+
+/* ── Route ──────────────────────────────────────────────── */
+
+.detail-route {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0 0;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.detail-route-point {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.route-dot-lg {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.route-dot-lg--origin { background: var(--accent); }
+.route-dot-lg--dest   { background: var(--success); }
+
+.route-city-label {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.route-city-name {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.route-dashed-line {
+  flex: 1;
+  height: 1px;
+  border-top: 2px dashed var(--border-medium);
+  min-width: 20px;
+  max-width: 60px;
+}
+
+/* ── Two-column layout ──────────────────────────────────── */
+
+.detail-columns {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 16px;
+  align-items: start;
+}
+
+.detail-main,
+.detail-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── QR card ────────────────────────────────────────────── */
+
+.detail-qr-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 16px;
+}
+
+.detail-qr-hint {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  text-align: center;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* ── Info table ─────────────────────────────────────────── */
+
+.detail-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 13px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.detail-info-row:last-child {
+  border-bottom: none;
+}
+
+.detail-info-key {
+  color: var(--text-muted);
+  font-weight: 500;
+  flex-shrink: 0;
+  min-width: 72px;
+}
+
+.detail-info-val {
+  color: var(--text-primary);
+  font-weight: 600;
+  text-align: right;
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+
+@media (max-width: 860px) {
+  .detail-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-sidebar {
+    /* QR and info below timeline on mobile */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 540px) {
+  .detail-topbar {
+    padding: 10px 16px;
+  }
+
+  .detail-topbar-id {
+    font-size: 12.5px;
+  }
+
+  .detail-sidebar {
+    grid-template-columns: 1fr;
+  }
+}

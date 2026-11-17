@@ -1,0 +1,243 @@
+/* =========================================================
+   MyParcelsPage
+   ========================================================= */
+
+.parcels-page {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* ── Page header (sticky) ───────────────────────────────── */
+
+.parcels-page-header {
+  position: sticky;
+  top: var(--header-height);
+  z-index: 10;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 16px 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.parcels-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ── Search ─────────────────────────────────────────────── */
+
+.parcels-search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  color: var(--text-muted);
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+.parcels-search-input {
+  width: 100%;
+  height: 36px;
+  padding: 0 12px 0 32px;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  font-size: 13.5px;
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.12s;
+}
+
+.parcels-search-input:focus {
+  border-color: var(--accent);
+  background: var(--bg-primary);
+}
+
+.parcels-search-input::placeholder {
+  color: var(--text-muted);
+}
+
+/* ── Filter tabs ────────────────────────────────────────── */
+
+.filter-tabs {
+  display: flex;
+  gap: 2px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  margin: 0 -20px;
+  padding: 0 20px;
+}
+
+.filter-tabs::-webkit-scrollbar { display: none; }
+
+.filter-tab {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 14px;
+  border: none;
+  background: none;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  font-family: inherit;
+  transition: color 0.12s, border-color 0.12s;
+}
+
+.filter-tab:hover {
+  color: var(--text-primary);
+}
+
+.filter-tab.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  font-weight: 600;
+}
+
+.filter-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  background: var(--bg-tertiary);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  padding: 0 4px;
+}
+
+.filter-tab.active .filter-count {
+  background: var(--accent-light);
+  color: var(--accent);
+}
+
+/* ── Parcels list ───────────────────────────────────────── */
+
+.parcels-list-wrap {
+  flex: 1;
+  padding-top: 20px !important;
+}
+
+.parcels-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ── Parcel card ────────────────────────────────────────── */
+
+.parcel-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.12s, border-color 0.12s;
+  cursor: pointer;
+}
+
+.parcel-card:hover {
+  box-shadow: var(--shadow-sm);
+  border-color: var(--border-medium);
+}
+
+.parcel-card-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+}
+
+.parcel-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.parcel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.parcel-tracking-id {
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.03em;
+}
+
+.parcel-route {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.parcel-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.parcel-time {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.parcel-card-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-top: 1px solid var(--border-subtle);
+  background: var(--bg-secondary);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+.parcel-meta {
+  font-size: 12px;
+  color: var(--text-muted);
+  flex: 1;
+}
+
+.parcel-meta strong {
+  color: var(--text-secondary);
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .parcels-page-header {
+    padding: 12px 16px 0;
+    top: var(--header-height);
+  }
+
+  .parcel-route {
+    max-width: 130px;
+  }
+}

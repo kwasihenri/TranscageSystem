@@ -16,6 +16,11 @@ import ClerkDashboard    from './pages/dashboards/ClerkDashboard'
 import DriverDashboard   from './pages/dashboards/DriverDashboard'
 import AdminDashboard    from './pages/dashboards/AdminDashboard'
 
+// Customer sub-pages
+import SendParcelPage    from './pages/customer/SendParcelPage'
+import MyParcelsPage     from './pages/customer/MyParcelsPage'
+import ParcelDetailPage  from './pages/customer/ParcelDetailPage'
+
 import './styles/global.css'
 
 /** Redirects /dashboard to the role-specific dashboard URL. */
@@ -54,6 +59,21 @@ function AppRoutes() {
         <Route path="/customer/dashboard" element={
           <ProtectedRoute allowedRoles={['customer']}>
             <CustomerDashboard />
+          </ProtectedRoute>
+        } />
+        <Route path="/customer/send" element={
+          <ProtectedRoute allowedRoles={['customer']}>
+            <SendParcelPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/customer/parcels/:id" element={
+          <ProtectedRoute allowedRoles={['customer']}>
+            <ParcelDetailPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/customer/parcels" element={
+          <ProtectedRoute allowedRoles={['customer']}>
+            <MyParcelsPage />
           </ProtectedRoute>
         } />
         <Route path="/customer/*" element={

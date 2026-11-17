@@ -1,17 +1,39 @@
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Package, PlusCircle, ArrowRight, Clock, CheckCircle, Truck } from 'lucide-react'
 import useAuth from '../../hooks/useAuth'
+import { getMyParcels } from '../../services/parcel.service'
+import { STATUS_CONFIG, STATIONS } from '../../constants/parcel'
 import TcIllustration from '../../components/common/TcIllustration'
 import './Dashboard.css'
+
+function getRouteShort(parcel) {
+  const city = (id) => STATIONS.find((s) => s.id === id)?.city || id
+  if (parcel.deliveryType === 'intercity')
+    return `${city(parcel.originStation)} → ${city(parcel.destinationStation)}`
+  return `${parcel.pickupAddress} → ${parcel.dropoffAddress}`
+}
 
 function CustomerDashboard() {
   const { user } = useAuth()
   const firstName = user?.name?.split(' ')[0] || 'there'
 
+  const [parcels, setParcels]   = useState([])
+  const [loading, setLoading]   = useState(true)
+
+  useEffect(() => {
+    getMyParcels().then(setParcels).finally(() => setLoading(false))
+  }, [])
+
+  const active    = parcels.filter((p) => ['created', 'at_origin'].includes(p.status)).length
+  const inTransit = parcels.filter((p) => ['in_transit', 'at_destination'].includes(p.status)).length
+  const delivered = parcels.filter((p) => p.status === 'delivered').length
+  const recent    = parcels.slice(0, 5)
+
   const stats = [
-    { label: 'Active',      value: 0, icon: Package,       color: 'blue',  trend: null },
-    { label: 'In Transit',  value: 0, icon: Truck,         color: 'amber', trend: null },
-    { label: 'Delivered',   value: 0, icon: CheckCircle,   color: 'green', trend: null },
+    { label: 'Active',      value: active,    icon: Package,       color: 'blue'  },
+    { label: 'In Transit',  value: inTransit,  icon: Truck,         color: 'amber' },
+    { label: 'Delivered',   value: delivered,  icon: CheckCircle,   color: 'green' },
   ]
 
   return (
@@ -43,7 +65,7 @@ function CustomerDashboard() {
                 <div className={`stat-icon stat-icon--${s.color}`}>
                   <s.icon size={16} strokeWidth={2} />
                 </div>
-                <div className="stat-value">{s.value}</div>
+                <div className="stat-value">{loading ? '—' : s.value}</div>
                 <div className="stat-label">{s.label}</div>
               </div>
             ))}
@@ -58,31 +80,58 @@ function CustomerDashboard() {
           </div>
 
           <div className="card">
-            <div className="empty-state">
-              <TcIllustration type="empty-parcels" size={140} />
-              <p className="empty-state-title">No parcels yet</p>
-              <p className="empty-state-body">
-                Send your first parcel and it will appear here with live tracking.
-              </p>
-              <Link to="/customer/send" className="btn btn-primary" style={{ marginTop: 8 }}>
-                <PlusCircle size={15} />
-                Send a Parcel
-              </Link>
-            </div>
+            {loading ? (
+              <div style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {[1, 2].map((n) => (
+                  <div key={n} className="skeleton" style={{ height: 48, borderRadius: 4 }} />
+                ))}
+              </div>
+            ) : recent.length === 0 ? (
+              <div className="empty-state">
+                <TcIllustration type="empty-parcels" size={140} />
+                <p className="empty-state-title">No parcels yet</p>
+                <p className="empty-state-body">
+                  Send your first parcel and it will appear here with live tracking.
+                </p>
+                <Link to="/customer/send" className="btn btn-primary" style={{ marginTop: 8 }}>
+                  <PlusCircle size={15} /> Send a Parcel
+                </Link>
+              </div>
+            ) : (
+              recent.map((p) => {
+                const cfg = STATUS_CONFIG[p.status] || STATUS_CONFIG.created
+                return (
+                  <Link
+                    key={p.id}
+                    to={`/customer/parcels/${p.trackingId}`}
+                    className="list-item"
+                    style={{ textDecoration: 'none', color: 'inherit' }}
+                  >
+                    <div className="list-item-icon" style={{ background: 'var(--accent-light)', color: 'var(--accent)' }}>
+                      <Package size={15} />
+                    </div>
+                    <div className="list-item-content">
+                      <div className="list-item-label">{p.trackingId}</div>
+                      <div className="list-item-meta">{getRouteShort(p)}</div>
+                    </div>
+                    <span className={`badge ${cfg.badge}`}>{cfg.label}</span>
+                  </Link>
+                )
+              })
+            )}
           </div>
         </div>
 
         {/* Sidebar */}
         <div className="dashboard-section">
-          {/* Quick actions */}
           <div className="section-header">
             <span className="section-title">Quick Actions</span>
           </div>
           <div className="quick-actions-grid">
             {[
-              { to: '/customer/send', icon: PlusCircle, label: 'Send',  desc: 'Book a new parcel' },
-              { to: '/track',         icon: Package,    label: 'Track', desc: 'Enter a Tracking ID' },
-              { to: '/customer/parcels', icon: Clock,  label: 'History', desc: 'Past deliveries' },
+              { to: '/customer/send',    icon: PlusCircle, label: 'Send',    desc: 'Book a new parcel' },
+              { to: '/track',            icon: Package,    label: 'Track',   desc: 'Enter a Tracking ID' },
+              { to: '/customer/parcels', icon: Clock,      label: 'History', desc: 'Past deliveries' },
             ].map((a) => (
               <Link key={a.to} to={a.to} className="quick-action-card">
                 <div className="quick-action-icon"><a.icon size={16} /></div>
@@ -94,7 +143,6 @@ function CustomerDashboard() {
             ))}
           </div>
 
-          {/* Tip card */}
           <div className="card">
             <div className="card-body" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               <p className="section-title">💡 How it works</p>
