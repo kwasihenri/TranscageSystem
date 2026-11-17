@@ -1,30 +1,37 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useLocation, Navigate } from 'react-router-dom'
 import { Eye, EyeOff, ArrowRight } from 'lucide-react'
 import TcIcon from '../components/common/TcIcon'
+import useAuth from '../hooks/useAuth'
 import './LoginPage.css'
 
-/**
- * LoginPage — shared entry point for all roles.
- * Role is determined server-side after credentials are verified.
- */
 function LoginPage() {
+  const { login, loading, user } = useAuth()
+  const navigate  = useNavigate()
+  const location  = useLocation()
+  const from      = location.state?.from?.pathname || '/dashboard'
+
   const [phone, setPhone]       = useState('')
   const [password, setPassword] = useState('')
   const [showPass, setShowPass] = useState(false)
-  const [loading, setLoading]   = useState(false)
   const [error, setError]       = useState('')
 
-  function handleSubmit(e) {
+  // Already logged in → go to dashboard
+  if (user) return <Navigate to="/dashboard" replace />
+
+  async function handleSubmit(e) {
     e.preventDefault()
     setError('')
     if (!phone || !password) {
       setError('Please enter your phone number and password.')
       return
     }
-    setLoading(true)
-    // Auth logic wired in Phase 2
-    setTimeout(() => setLoading(false), 1200)
+    try {
+      await login(phone.trim(), password)
+      navigate(from, { replace: true })
+    } catch (err) {
+      setError(err.message)
+    }
   }
 
   return (
@@ -40,18 +47,24 @@ function LoginPage() {
           <p className="login-subtitle">Enter your phone number and password to continue.</p>
         </div>
 
+        {/* Dev hint — only visible in development */}
+        {import.meta.env.DEV && (
+          <div className="login-dev-hint">
+            <strong>Dev mode demo accounts:</strong><br />
+            Admin: 0200000001 / admin1234<br />
+            Clerk: 0200000002 / clerk1234<br />
+            Driver: 0200000003 / driver1234<br />
+            Customer: 0200000004 / cust1234
+          </div>
+        )}
+
         <form className="login-form" onSubmit={handleSubmit} noValidate>
           {error && (
-            <div className="login-error-banner" role="alert">
-              {error}
-            </div>
+            <div className="login-error-banner" role="alert">{error}</div>
           )}
 
-          {/* Phone */}
           <div className="form-group">
-            <label className="form-label" htmlFor="login-phone">
-              Phone Number
-            </label>
+            <label className="form-label" htmlFor="login-phone">Phone Number</label>
             <input
               id="login-phone"
               type="tel"
@@ -64,11 +77,8 @@ function LoginPage() {
             />
           </div>
 
-          {/* Password */}
           <div className="form-group">
-            <label className="form-label" htmlFor="login-password">
-              Password
-            </label>
+            <label className="form-label" htmlFor="login-password">Password</label>
             <div className="input-with-action">
               <input
                 id="login-password"
@@ -88,8 +98,7 @@ function LoginPage() {
               >
                 {showPass
                   ? <EyeOff size={16} strokeWidth={1.8} />
-                  : <Eye size={16} strokeWidth={1.8} />
-                }
+                  : <Eye size={16} strokeWidth={1.8} />}
               </button>
             </div>
           </div>
@@ -110,16 +119,11 @@ function LoginPage() {
 
         <p className="login-footer-text">
           New customer?{' '}
-          <Link to="/register" className="login-footer-link">
-            Create an account
-          </Link>
+          <Link to="/register" className="login-footer-link">Create an account</Link>
         </p>
-
         <p className="login-footer-text" style={{ marginTop: 6 }}>
           Tracking a parcel?{' '}
-          <Link to="/track" className="login-footer-link">
-            Track without signing in
-          </Link>
+          <Link to="/track" className="login-footer-link">Track without signing in</Link>
         </p>
       </div>
     </div>
