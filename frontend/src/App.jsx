@@ -16,6 +16,11 @@ import ReceivePage  from './pages/ReceivePage'
 import ScanPage         from './pages/clerk/ScanPage'
 import ManifestsPage   from './pages/clerk/ManifestsPage'
 import ClerkParcelsPage from './pages/clerk/ClerkParcelsPage'
+
+// Driver sub-pages
+import MyJobsPage    from './pages/driver/MyJobsPage'
+import JobDetailPage from './pages/driver/JobDetailPage'
+import LocationPage  from './pages/driver/LocationPage'
 import CustomerDashboard from './pages/dashboards/CustomerDashboard'
 import ClerkDashboard    from './pages/dashboards/ClerkDashboard'
 import DriverDashboard   from './pages/dashboards/DriverDashboard'
@@ -125,6 +130,26 @@ function AppRoutes() {
         <Route path="/driver/dashboard" element={
           <ProtectedRoute allowedRoles={['driver']}>
             <DriverDashboard />
+          </ProtectedRoute>
+        } />
+        <Route path="/driver/jobs" element={
+          <ProtectedRoute allowedRoles={['driver']}>
+            <MyJobsPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/driver/jobs/:id" element={
+          <ProtectedRoute allowedRoles={['driver']}>
+            <JobDetailPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/driver/location" element={
+          <ProtectedRoute allowedRoles={['driver']}>
+            <LocationPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/driver/manifests" element={
+          <ProtectedRoute allowedRoles={['driver']}>
+            <MyJobsPage />
           </ProtectedRoute>
         } />
         <Route path="/driver/*" element={

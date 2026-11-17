@@ -1,0 +1,219 @@
+/* =========================================================
+   JobDetailPage
+   ========================================================= */
+
+.job-detail-page {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* ── Topbar ─────────────────────────────────────────────── */
+
+.job-detail-topbar {
+  position: sticky;
+  top: var(--header-height);
+  z-index: 10;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: var(--shadow-xs);
+}
+
+.job-detail-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.job-detail-id {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: 0.04em;
+}
+
+/* ── Body ───────────────────────────────────────────────── */
+
+.job-detail-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 20px;
+  padding-bottom: 48px;
+}
+
+/* ── Route ──────────────────────────────────────────────── */
+
+.job-detail-route {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.job-detail-point {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.job-detail-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.job-detail-dot--blue  { background: var(--accent); }
+.job-detail-dot--green { background: var(--success); }
+
+.job-detail-point-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.job-detail-point-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-top: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.job-detail-dashes {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.job-detail-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 12px;
+}
+
+.job-detail-meta-row span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ── Trip stepper ───────────────────────────────────────── */
+
+.trip-stepper {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.trip-step {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.trip-step-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 24px;
+}
+
+.trip-step-dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--border-medium);
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: var(--text-muted);
+  transition: all 0.2s;
+}
+
+.trip-step.done .trip-step-dot {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.trip-step.active .trip-step-dot {
+  background: var(--warning);
+  border-color: var(--warning);
+  color: #fff;
+  box-shadow: 0 0 0 4px var(--warning-light);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 4px var(--warning-light); }
+  50%       { box-shadow: 0 0 0 7px var(--warning-light); }
+}
+
+.trip-step-connector {
+  width: 2px;
+  height: 32px;
+  background: var(--border-medium);
+  margin: 3px 0;
+  transition: background 0.2s;
+}
+
+.trip-step-connector.done { background: var(--accent); }
+
+.trip-step-info {
+  padding: 3px 0 24px;
+}
+
+.trip-step-label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.trip-step-time {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.trip-step:last-child .trip-step-info {
+  padding-bottom: 0;
+}
+
+/* ── Arrive panels ──────────────────────────────────────── */
+
+.job-arrive-panel {}
+
+.job-arrive-success {
+  overflow: hidden;
+}
+
+.job-arrive-success .card-body {
+  background: var(--success-light);
+  border-radius: var(--radius-lg);
+}
+
+@media (max-width: 540px) {
+  .job-detail-topbar { padding: 10px 16px; }
+  .job-detail-body   { padding-top: 16px; }
+}

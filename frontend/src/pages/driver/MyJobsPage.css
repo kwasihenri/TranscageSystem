@@ -1,0 +1,150 @@
+/* =========================================================
+   MyJobsPage
+   ========================================================= */
+
+.jobs-page {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.jobs-header {
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 16px 20px;
+}
+
+.jobs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 20px;
+  padding-bottom: 48px;
+}
+
+/* ── Job card ───────────────────────────────────────────── */
+
+.job-card {
+  display: block;
+  transition: box-shadow 0.15s, transform 0.1s;
+  cursor: pointer;
+}
+
+.job-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.job-card-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px 10px;
+}
+
+.job-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.job-id-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.job-id {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: 0.03em;
+}
+
+.job-route {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.job-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+
+.job-meta span {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.job-arrow {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding-top: 4px;
+}
+
+/* ── Progress strip ─────────────────────────────────────── */
+
+.job-progress-strip {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px 12px;
+  border-top: 1px solid var(--border-subtle);
+  gap: 0;
+}
+
+.job-step {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex: 1;
+}
+
+.job-step-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--border-medium);
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+
+.job-step.done .job-step-dot  { background: var(--accent); }
+.job-step.active .job-step-dot { background: var(--warning); box-shadow: 0 0 0 3px var(--warning-light); }
+
+.job-step-line {
+  flex: 1;
+  height: 2px;
+  background: var(--border-medium);
+  margin: 0 4px;
+}
+
+.job-step.done .job-step-line { background: var(--accent); }
+
+.job-step-label {
+  position: absolute;
+  font-size: 9.5px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  display: none; /* only show in detail page */
+}
+
+@media (max-width: 540px) {
+  .jobs-header { padding: 12px 16px; }
+  .jobs-list   { padding: 14px 16px 60px; }
+}
