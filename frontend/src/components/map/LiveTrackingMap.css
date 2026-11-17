@@ -1,0 +1,199 @@
+/* =========================================================
+   LiveTrackingMap — Leaflet integration styles
+   ========================================================= */
+
+/* ── Container ──────────────────────────────────────────── */
+
+.tc-live-map-wrap {
+  overflow: hidden;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+/* ── ETA bar ────────────────────────────────────────────── */
+
+.tc-map-eta-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--accent-light);
+  border-bottom: 1px solid rgba(37, 99, 235, 0.15);
+  flex-wrap: wrap;
+}
+
+.tc-map-eta-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Pulsing live dot */
+.tc-live-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ef4444;
+  animation: live-pulse 1.3s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes live-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%       { transform: scale(1.5); opacity: 0.6; }
+}
+
+.tc-map-status {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.tc-map-eta-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Progress bar */
+.tc-map-progress-bar-wrap {
+  width: 80px;
+  height: 5px;
+  background: rgba(37, 99, 235, 0.15);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.tc-map-progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 99px;
+  transition: width 1s ease;
+}
+
+.tc-map-pct {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 600;
+  min-width: 32px;
+  text-align: right;
+}
+
+.tc-map-eta {
+  font-size: 12.5px;
+  color: var(--text-primary);
+}
+
+/* ── Leaflet container ──────────────────────────────────── */
+
+.tc-leaflet-map {
+  height: 300px;
+  width: 100%;
+  z-index: 0;  /* keep below modals / nav */
+}
+
+/* Override leaflet attribution font */
+.tc-leaflet-map .leaflet-control-attribution {
+  font-size: 9.5px;
+  opacity: 0.6;
+}
+
+/* ── Custom marker: driver truck ────────────────────────── */
+
+.tc-driver-icon {
+  background: none !important;
+  border: none !important;
+}
+
+.tc-driver-pin {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  animation: truck-hover 1.6s ease-in-out infinite;
+  filter: drop-shadow(0 2px 5px rgba(0,0,0,0.35));
+}
+
+@keyframes truck-hover {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50%       { transform: translateY(-4px) rotate(2deg); }
+}
+
+/* ── Custom marker: station pins ────────────────────────── */
+
+.tc-station-pin {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2.5px solid #fff;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+}
+
+.tc-station-pin--origin { background: #2563eb; }
+.tc-station-pin--dest   { background: #16a34a; }
+
+/* ── Map popup ──────────────────────────────────────────── */
+
+.tc-map-popup .leaflet-popup-content-wrapper {
+  border-radius: 8px;
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  font-weight: 600;
+  box-shadow: var(--shadow-md);
+}
+
+.tc-map-popup .leaflet-popup-tip-container { opacity: 0.8; }
+
+/* ── Legend ─────────────────────────────────────────────── */
+
+.tc-map-legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 8px 14px;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-subtle);
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+
+.tc-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 500;
+}
+
+.tc-leg-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  flex-shrink: 0;
+}
+
+.tc-leg-dot--origin { background: #2563eb; }
+.tc-leg-dot--dest   { background: #16a34a; }
+
+.tc-leg-truck { font-size: 14px; }
+
+.tc-map-unavailable {
+  padding: 20px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
+  background: var(--bg-secondary);
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+
+@media (max-width: 540px) {
+  .tc-leaflet-map    { height: 240px; }
+  .tc-map-eta-bar    { gap: 8px; }
+  .tc-map-progress-bar-wrap { width: 55px; }
+}

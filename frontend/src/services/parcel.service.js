@@ -44,11 +44,37 @@ function buildDemoReadyParcel() {
   }
 }
 
+/* ── Demo "in transit" parcel (shows live map) ──────── */
+function buildDemoInTransitParcel() {
+  const now = Date.now()
+  return {
+    id:           'demo-transit',
+    trackingId:   'TC-DEMO-00002',
+    deliveryType: 'intercity',
+    originStation:      'ksi-asafo',
+    destinationStation: 'acc-central',
+    receiverName:  'Ama Boateng',
+    receiverPhone: '0244000002',
+    description:   'Medical documents (urgent)',
+    weight:        '<1',
+    category:      'Documents',
+    fragile:       false,
+    status:        'in_transit',
+    createdAt:     new Date(now - 3   * 3600_000).toISOString(),
+    history: [
+      { status: 'created',    note: 'Parcel booked.',                                   timestamp: new Date(now - 3 * 3600_000).toISOString() },
+      { status: 'at_origin',  note: 'Checked in at Kumasi Asafo Terminal.',              timestamp: new Date(now - 2.5 * 3600_000).toISOString() },
+      { status: 'in_transit', note: 'Dispatched on manifest TC-MAN-002. Driver en route.', timestamp: new Date(now - 1.5 * 3600_000).toISOString() },
+    ],
+  }
+}
+
 function findParcel(id) {
   const all = getDemoParcels()
   const found = all.find((p) => p.trackingId === id || p.id === id)
   if (found) return found
   if (id === 'TC-DEMO-00001') return buildDemoReadyParcel()
+  if (id === 'TC-DEMO-00002') return buildDemoInTransitParcel()
   return null
 }
 

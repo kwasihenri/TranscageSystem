@@ -14,4 +14,15 @@ export default defineConfig({
       },
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: (id) => {
+          if (id.includes('leaflet') || id.includes('react-leaflet')) {
+            return 'vendor-leaflet'
+          }
+        },
+      },
+    },
+  },
 })

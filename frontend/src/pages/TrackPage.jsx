@@ -3,7 +3,8 @@ import { useParams, useNavigate, Link } from 'react-router-dom'
 import { Search, Package, ArrowRight, Share2, CheckCircle } from 'lucide-react'
 import { trackPublic } from '../services/parcel.service'
 import { STATUS_CONFIG, STATIONS } from '../constants/parcel'
-import TrackingTimeline from '../components/common/TrackingTimeline'
+import TrackingTimeline  from '../components/common/TrackingTimeline'
+import LiveTrackingMap   from '../components/map/LiveTrackingMap'
 import TcIcon from '../components/common/TcIcon'
 import './TrackPage.css'
 
@@ -94,7 +95,7 @@ function TrackPage() {
 
           {import.meta.env.DEV && (
             <p className="track-dev-hint">
-              💡 Demo: try <code>TC-DEMO-00001</code> (at destination, ready to collect)
+              💡 Demo: <code>TC-DEMO-00001</code> (at destination) &nbsp;·&nbsp; <code>TC-DEMO-00002</code> (live map 🗺️)
             </p>
           )}
         </div>
@@ -211,6 +212,16 @@ function TrackPage() {
                 </div>
               )}
             </div>
+
+            {/* Live map — shown for in_transit intercity parcels */}
+            {parcel.status === 'in_transit' && parcel.deliveryType === 'intercity' && (
+              <div className="card" style={{ overflow: 'hidden' }}>
+                <div className="card-header">
+                  <span className="card-title">🚨 Live Driver Tracking</span>
+                </div>
+                <LiveTrackingMap parcel={parcel} />
+              </div>
+            )}
 
             {/* Timeline */}
             <div className="card">
