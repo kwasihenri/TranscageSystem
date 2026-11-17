@@ -1,0 +1,257 @@
+/* =========================================================
+   ReceivePage — OTP collection flow
+   ========================================================= */
+
+.receive-page {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px 48px;
+  background: var(--bg-secondary);
+  min-height: calc(100vh - var(--header-height));
+}
+
+.receive-card {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 28px 24px;
+}
+
+.receive-brand {
+  display: flex;
+  justify-content: center;
+}
+
+/* ── Parcel info pill ───────────────────────────────────── */
+
+.receive-parcel-info {
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--accent-light);
+  border: 1px solid var(--accent-border);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.receive-tracking-id {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+}
+
+.receive-route {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* ── Error ──────────────────────────────────────────────── */
+
+.receive-error {
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--danger-light);
+  border: 1px solid #fecaca;
+  color: var(--danger);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* ── Step header ────────────────────────────────────────── */
+
+.receive-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.receive-step-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.receive-step-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.receive-step-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0 0 4px;
+  letter-spacing: -0.02em;
+}
+
+.receive-step-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ── OTP input row ──────────────────────────────────────── */
+
+.otp-input-row {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.otp-box {
+  width: 46px;
+  height: 54px;
+  border: 1.5px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  text-align: center;
+  font-size: 22px;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+  outline: none;
+  transition: border-color 0.12s, background 0.12s, box-shadow 0.12s;
+  caret-color: transparent;
+  cursor: text;
+}
+
+.otp-box:focus {
+  border-color: var(--accent);
+  background: var(--bg-primary);
+  box-shadow: 0 0 0 3px var(--accent-light);
+}
+
+.otp-box.filled {
+  border-color: var(--accent);
+  background: var(--accent-light);
+  color: var(--accent);
+}
+
+.otp-box:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ── Dev hint ───────────────────────────────────────────── */
+
+.receive-dev-hint {
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--warning-light);
+  border: 1px solid #fde68a;
+  font-size: 11.5px;
+  color: var(--warning);
+}
+
+.receive-dev-hint code {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: inherit;
+}
+
+/* ── Success screen ─────────────────────────────────────── */
+
+.receive-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.success-emoji {
+  font-size: 48px;
+  animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes pop-in {
+  from { transform: scale(0.5); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+.success-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.025em;
+  margin: 0;
+}
+
+.success-subtitle {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.success-details {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.success-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border-subtle);
+  gap: 12px;
+}
+
+.success-row:last-child { border-bottom: none; }
+
+.success-row span:first-child {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.success-row span:last-child,
+.success-row code {
+  color: var(--text-primary);
+  font-weight: 600;
+  text-align: right;
+}
+
+.success-row code {
+  font-family: var(--font-mono);
+  color: var(--accent);
+}
+
+.success-actions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+
+@media (max-width: 420px) {
+  .receive-card {
+    padding: 20px 16px;
+  }
+
+  .otp-box {
+    width: 40px;
+    height: 48px;
+    font-size: 20px;
+  }
+}

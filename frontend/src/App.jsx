@@ -9,6 +9,8 @@ import ProtectedRoute from './components/routing/ProtectedRoute'
 import HomePage     from './pages/HomePage'
 import LoginPage    from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
+import TrackPage    from './pages/TrackPage'
+import ReceivePage  from './pages/ReceivePage'
 
 // Dashboards
 import CustomerDashboard from './pages/dashboards/CustomerDashboard'
@@ -48,7 +50,9 @@ function AppRoutes() {
         <Route path="/"         element={<HomePage />} />
         <Route path="/login"    element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/track"    element={<Navigate to="/" replace />} /> {/* Phase 4 */}
+        <Route path="/track"     element={<TrackPage />} />
+        <Route path="/track/:id" element={<TrackPage />} />
+        <Route path="/receive/:id" element={<ReceivePage />} />
 
         {/* ── Dashboard hub (role redirect) ──────── */}
         <Route path="/dashboard" element={

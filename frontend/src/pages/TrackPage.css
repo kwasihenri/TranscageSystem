@@ -1,0 +1,305 @@
+/* =========================================================
+   TrackPage — public tracking
+   ========================================================= */
+
+.track-page {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* ── Hero search section ────────────────────────────────── */
+
+.track-hero {
+  background: linear-gradient(135deg, var(--accent) 0%, #1a52c8 100%);
+  padding: 48px 20px 56px;
+  color: #fff;
+}
+
+.track-hero-inner {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+
+.track-hero-title {
+  font-size: 26px;
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: -0.025em;
+  color: #fff;
+}
+
+.track-hero-sub {
+  font-size: 14px;
+  color: rgba(255,255,255,0.8);
+  margin: 0;
+}
+
+.track-search-form {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.track-search-wrap {
+  position: relative;
+  flex: 1;
+}
+
+.track-search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.track-search-input {
+  width: 100%;
+  height: 44px;
+  padding: 0 14px 0 36px;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 14.5px;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+  background: #fff;
+  color: var(--text-primary);
+  outline: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  transition: box-shadow 0.15s;
+}
+
+.track-search-input:focus {
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.4);
+}
+
+.track-search-input::placeholder {
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--text-muted);
+}
+
+.track-search-btn {
+  height: 44px;
+  white-space: nowrap;
+  background: rgba(255,255,255,0.15) !important;
+  border: 1.5px solid rgba(255,255,255,0.4) !important;
+  color: #fff !important;
+  backdrop-filter: blur(4px);
+  transition: background 0.15s !important;
+}
+
+.track-search-btn:hover:not(:disabled) {
+  background: rgba(255,255,255,0.25) !important;
+}
+
+.track-dev-hint {
+  font-size: 12px;
+  color: rgba(255,255,255,0.75);
+  margin: 0;
+  background: rgba(255,255,255,0.12);
+  padding: 6px 12px;
+  border-radius: 20px;
+}
+
+.track-dev-hint code {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: #fff;
+}
+
+/* ── Results area ───────────────────────────────────────── */
+
+.track-results {
+  flex: 1;
+  background: var(--bg-secondary);
+  padding: 24px 20px 48px;
+}
+
+.track-result-wrap {
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── Summary card ───────────────────────────────────────── */
+
+.track-summary-card {}
+
+.track-summary-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.track-id-display {
+  font-family: var(--font-mono);
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: 0.04em;
+}
+
+/* ── Route ──────────────────────────────────────────────── */
+
+.track-route {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 0;
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 14px;
+}
+
+.track-route-point {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.track-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.track-dot--blue  { background: var(--accent); }
+.track-dot--green { background: var(--success); }
+
+.track-city-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.track-city-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-top: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.track-route-line {
+  flex: 0 0 32px;
+  height: 1px;
+  border-top: 2px dashed var(--border-medium);
+}
+
+/* ── Receiver ───────────────────────────────────────────── */
+
+.track-receiver-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.track-receiver-label {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.track-receiver-name {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.track-receiver-phone {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+/* ── Collect banner ─────────────────────────────────────── */
+
+.track-collect-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--success-light);
+  border-top: 1px solid #bbf7d0;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  flex-wrap: wrap;
+}
+
+.collect-banner-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.collect-banner-text strong {
+  font-size: 13.5px;
+  color: var(--text-primary);
+}
+
+.collect-banner-text span {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.track-delivered-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: var(--success-light);
+  border-top: 1px solid #bbf7d0;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--success);
+}
+
+/* ── Not found ──────────────────────────────────────────── */
+
+.track-not-found {}
+
+/* ── Responsive ─────────────────────────────────────────── */
+
+@media (max-width: 540px) {
+  .track-hero {
+    padding: 36px 16px 44px;
+  }
+
+  .track-hero-title {
+    font-size: 22px;
+  }
+
+  .track-search-form {
+    flex-direction: column;
+  }
+
+  .track-search-btn {
+    width: 100%;
+  }
+
+  .track-results {
+    padding: 20px 16px 48px;
+  }
+}
