@@ -26,6 +26,12 @@ import ClerkDashboard    from './pages/dashboards/ClerkDashboard'
 import DriverDashboard   from './pages/dashboards/DriverDashboard'
 import AdminDashboard    from './pages/dashboards/AdminDashboard'
 
+// Admin sub-pages
+import AllParcelsPage from './pages/admin/AllParcelsPage'
+import DriversPage    from './pages/admin/DriversPage'
+import StationsPage   from './pages/admin/StationsPage'
+import ReportsPage    from './pages/admin/ReportsPage'
+
 // Customer sub-pages
 import SendParcelPage    from './pages/customer/SendParcelPage'
 import MyParcelsPage     from './pages/customer/MyParcelsPage'
@@ -160,9 +166,19 @@ function AppRoutes() {
 
         {/* ── Admin ───────────────────────────────── */}
         <Route path="/admin/dashboard" element={
-          <ProtectedRoute allowedRoles={['admin']}>
-            <AdminDashboard />
-          </ProtectedRoute>
+          <ProtectedRoute allowedRoles={['admin']}><AdminDashboard /></ProtectedRoute>
+        } />
+        <Route path="/admin/parcels" element={
+          <ProtectedRoute allowedRoles={['admin']}><AllParcelsPage /></ProtectedRoute>
+        } />
+        <Route path="/admin/drivers" element={
+          <ProtectedRoute allowedRoles={['admin']}><DriversPage /></ProtectedRoute>
+        } />
+        <Route path="/admin/stations" element={
+          <ProtectedRoute allowedRoles={['admin']}><StationsPage /></ProtectedRoute>
+        } />
+        <Route path="/admin/reports" element={
+          <ProtectedRoute allowedRoles={['admin']}><ReportsPage /></ProtectedRoute>
         } />
         <Route path="/admin/*" element={
           <ProtectedRoute allowedRoles={['admin']}>
