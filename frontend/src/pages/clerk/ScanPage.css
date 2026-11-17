@@ -1,0 +1,270 @@
+/* =========================================================
+   ScanPage — Clerk scanning interface
+   ========================================================= */
+
+.scan-page {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* ── Station bar ────────────────────────────────────────── */
+
+.scan-station-bar {
+  background: var(--accent);
+  color: #fff;
+  padding: 8px 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.scan-station-icon { font-size: 16px; }
+
+.scan-station-name {
+  font-weight: 700;
+}
+
+.scan-station-role {
+  color: rgba(255,255,255,0.75);
+}
+
+/* ── Body ───────────────────────────────────────────────── */
+
+.scan-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  max-width: 640px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ── Input panel ────────────────────────────────────────── */
+
+.scan-input-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+}
+
+.scan-form {
+  display: flex;
+  gap: 10px;
+}
+
+.scan-input-wrap {
+  position: relative;
+  flex: 1;
+}
+
+.scan-icon {
+  position: absolute;
+  left: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.scan-input {
+  width: 100%;
+  height: 42px;
+  padding: 0 14px 0 34px;
+  border: 1.5px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  font-size: 14.5px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+  outline: none;
+  transition: border-color 0.12s;
+}
+
+.scan-input:focus {
+  border-color: var(--accent);
+  background: var(--bg-primary);
+}
+
+.scan-input::placeholder {
+  font-weight: 400;
+  letter-spacing: 0;
+  font-size: 13.5px;
+  color: var(--text-muted);
+}
+
+.scan-btn {
+  flex-shrink: 0;
+  height: 42px;
+  padding: 0 20px;
+}
+
+.scan-error {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--danger);
+  font-weight: 500;
+  padding: 6px 0 0;
+}
+
+.scan-dev-hint {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.scan-dev-hint code {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* ── Result ─────────────────────────────────────────────── */
+
+.scan-result {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ── Parcel card ────────────────────────────────────────── */
+
+.scan-parcel-card {}
+
+.scan-parcel-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.scan-parcel-id {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: 0.04em;
+}
+
+.scan-parcel-route {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.scan-parcel-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
+/* ── Success / error ────────────────────────────────────── */
+
+.scan-action-success {
+  padding: 10px 16px;
+  background: var(--success-light);
+  border-top: 1px solid #bbf7d0;
+  color: var(--success);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.scan-action-error {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  background: var(--danger-light);
+  border-top: 1px solid #fecaca;
+  color: var(--danger);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* ── Action panels ──────────────────────────────────────── */
+
+.scan-action-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 16px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.scan-action-panel--blue  { background: var(--accent-light); }
+.scan-action-panel--amber { background: var(--warning-light); }
+.scan-action-panel--green { background: var(--success-light); }
+.scan-action-panel--gray  { background: var(--bg-secondary); }
+
+.scan-action-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.scan-no-manifests {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.link {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.link:hover { text-decoration: underline; }
+
+.scan-dispatch-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.scan-dispatch-row .form-select {
+  flex: 1;
+}
+
+/* ── History ────────────────────────────────────────────── */
+
+.scan-history {}
+
+/* ── Idle prompt ────────────────────────────────────────── */
+
+.scan-idle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 48px 20px;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+
+@media (max-width: 540px) {
+  .scan-body {
+    padding: 14px 14px 48px;
+  }
+
+  .scan-dispatch-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

@@ -12,7 +12,10 @@ import RegisterPage from './pages/RegisterPage'
 import TrackPage    from './pages/TrackPage'
 import ReceivePage  from './pages/ReceivePage'
 
-// Dashboards
+// Clerk sub-pages
+import ScanPage         from './pages/clerk/ScanPage'
+import ManifestsPage   from './pages/clerk/ManifestsPage'
+import ClerkParcelsPage from './pages/clerk/ClerkParcelsPage'
 import CustomerDashboard from './pages/dashboards/CustomerDashboard'
 import ClerkDashboard    from './pages/dashboards/ClerkDashboard'
 import DriverDashboard   from './pages/dashboards/DriverDashboard'
@@ -90,6 +93,26 @@ function AppRoutes() {
         <Route path="/clerk/dashboard" element={
           <ProtectedRoute allowedRoles={['clerk']}>
             <ClerkDashboard />
+          </ProtectedRoute>
+        } />
+        <Route path="/clerk/scan" element={
+          <ProtectedRoute allowedRoles={['clerk']}>
+            <ScanPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/clerk/manifests" element={
+          <ProtectedRoute allowedRoles={['clerk']}>
+            <ManifestsPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/clerk/parcels" element={
+          <ProtectedRoute allowedRoles={['clerk']}>
+            <ClerkParcelsPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/clerk/otp-verify" element={
+          <ProtectedRoute allowedRoles={['clerk']}>
+            <ScanPage />
           </ProtectedRoute>
         } />
         <Route path="/clerk/*" element={
