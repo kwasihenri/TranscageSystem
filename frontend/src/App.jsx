@@ -38,7 +38,8 @@ import MyParcelsPage     from './pages/customer/MyParcelsPage'
 import ParcelDetailPage  from './pages/customer/ParcelDetailPage'
 
 import { NotificationProvider, useNotifications } from './context/NotificationContext'
-import ToastContainer from './components/notifications/ToastContainer'
+import ToastContainer        from './components/notifications/ToastContainer'
+import IncomingCallListener  from './components/voicecall/IncomingCallListener'
 
 import './styles/global.css'
 
@@ -64,6 +65,7 @@ function AppRoutes() {
   return (
     <AppShell user={user} navLinks={navLinks} notifications={unreadCount}>
       <Routes>
+
         {/* ── Public ──────────────────────────────── */}
         <Route path="/"         element={<HomePage />} />
         <Route path="/login"    element={<LoginPage />} />
@@ -207,6 +209,7 @@ function App() {
         <AuthProvider>
           <AppRoutes />
           <ToastContainer />
+          <IncomingCallListener />
         </AuthProvider>
       </NotificationProvider>
     </BrowserRouter>

@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import { ArrowLeft, Truck, Package, CheckCircle, MapPin, Clock } from 'lucide-react'
+import { ArrowLeft, Truck, Package, CheckCircle, MapPin, Clock, Phone } from 'lucide-react'
 import { getDriverJob, markArrived } from '../../services/driver.service'
 import { STATIONS } from '../../constants/parcel'
+import useVoiceCall from '../../hooks/useVoiceCall'
+import VoiceCallUI  from '../../components/voicecall/VoiceCallUI'
 import './JobDetailPage.css'
 
 function getStationName(id) {
@@ -22,6 +24,8 @@ function JobDetailPage() {
   const [arriving, setArriving] = useState(false)
   const [arrived,  setArrived]  = useState(false)
   const [err, setErr]           = useState('')
+  const [showCall, setShowCall] = useState(false)
+  const call = useVoiceCall()
 
   useEffect(() => {
     getDriverJob(id).then(setJob).finally(() => setLoading(false))
@@ -165,6 +169,37 @@ function JobDetailPage() {
             ))
           )}
         </div>
+
+        {/* Call Receiver */}
+        {job.parcels.length > 0 && (
+          <div className="card">
+            <div className="card-header">
+              <span className="card-title">Contact</span>
+            </div>
+            <div className="card-body" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+              <div>
+                <p style={{ margin: '0 0 2px', fontWeight: 700, fontSize: 14, color: 'var(--text-primary)' }}>Call Parcel Receiver</p>
+                <p style={{ margin: 0, fontSize: 12.5, color: 'var(--text-muted)' }}>Start a voice call directly with the receiver</p>
+              </div>
+              <button
+                className="btn btn-primary"
+                id="call-receiver-btn"
+                onClick={async () => { setShowCall(true); await call.startCall(job.id) }}
+                disabled={call.status !== 'idle'}
+              >
+                <Phone size={14} /> Call
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Voice Call Overlay */}
+        {showCall && call.status !== 'idle' && (
+          <VoiceCallUI
+            call={call}
+            onClose={() => setShowCall(false)}
+          />
+        )}
 
         {/* Error */}
         {err && (

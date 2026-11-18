@@ -170,7 +170,7 @@
 
 /* ── Parcel card ────────────────────────────────────────── */
 
-.scan-parcel-card {}
+/* .scan-parcel-card {} */
 
 .scan-parcel-top {
   display: flex;
@@ -275,7 +275,7 @@
 
 /* ── History ────────────────────────────────────────────── */
 
-.scan-history {}
+/* .scan-history {} */
 
 /* ── Idle prompt ────────────────────────────────────────── */
 
