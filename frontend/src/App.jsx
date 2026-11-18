@@ -37,6 +37,9 @@ import SendParcelPage    from './pages/customer/SendParcelPage'
 import MyParcelsPage     from './pages/customer/MyParcelsPage'
 import ParcelDetailPage  from './pages/customer/ParcelDetailPage'
 
+import { NotificationProvider, useNotifications } from './context/NotificationContext'
+import ToastContainer from './components/notifications/ToastContainer'
+
 import './styles/global.css'
 
 /** Redirects /dashboard to the role-specific dashboard URL. */
@@ -54,11 +57,12 @@ function DashboardRedirect() {
 
 /** Inner component — lives inside AuthProvider so useAuth() works. */
 function AppRoutes() {
-  const { user, notifications } = useAuth()
+  const { user }        = useAuth()
+  const { unreadCount } = useNotifications()
   const navLinks = user ? (NAV_LINKS[user.role] || []) : []
 
   return (
-    <AppShell user={user} navLinks={navLinks} notifications={notifications}>
+    <AppShell user={user} navLinks={navLinks} notifications={unreadCount}>
       <Routes>
         {/* ── Public ──────────────────────────────── */}
         <Route path="/"         element={<HomePage />} />
@@ -199,9 +203,12 @@ function AppRoutes() {
 function App() {
   return (
     <BrowserRouter>
-      <AuthProvider>
-        <AppRoutes />
-      </AuthProvider>
+      <NotificationProvider>
+        <AuthProvider>
+          <AppRoutes />
+          <ToastContainer />
+        </AuthProvider>
+      </NotificationProvider>
     </BrowserRouter>
   )
 }

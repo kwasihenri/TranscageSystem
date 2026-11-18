@@ -5,6 +5,7 @@ import QRCode from 'react-qr-code'
 import useAuth from '../../hooks/useAuth'
 import { STATIONS, WEIGHT_OPTIONS, ITEM_CATEGORIES, calculateFee, formatFeeBreakdown } from '../../constants/parcel'
 import { createParcel } from '../../services/parcel.service'
+import { useNotifications } from '../../context/NotificationContext'
 import './SendParcelPage.css'
 
 /* ── Validation ─────────────────────────────────────────── */
@@ -56,6 +57,7 @@ const INITIAL_FORM = {
 /* ════════════════════════════════════════════════════════ */
 function SendParcelPage() {
   const { user } = useAuth()
+  const { push } = useNotifications()
   const navigate  = useNavigate()
   const [step, setStep]   = useState(1)
   const [form, setForm]   = useState(INITIAL_FORM)
@@ -87,6 +89,12 @@ function SendParcelPage() {
       const payload = { ...form, senderId: user?.id, senderName: user?.name }
       const parcel = await createParcel(payload)
       setSubmitted(parcel)
+      push({
+        type: 'parcel_booked',
+        title: 'Parcel Booked!',
+        body: `Your parcel ${parcel.trackingId} is confirmed and ready for drop-off.`,
+        trackingId: parcel.trackingId,
+      })
     } catch (err) {
       setError(err.message)
     } finally {

@@ -1,6 +1,8 @@
+import { useState } from 'react'
 import { NavLink, Link } from 'react-router-dom'
 import { Bell, Package } from 'lucide-react'
 import TcIcon from '../common/TcIcon'
+import NotificationDrawer from '../notifications/NotificationDrawer'
 import './Header.css'
 
 /**
@@ -9,6 +11,8 @@ import './Header.css'
  * When no user is provided (unauthenticated), only the brand is shown.
  */
 function Header({ user = null, navLinks = [], notificationCount = 0 }) {
+  const [drawerOpen, setDrawerOpen] = useState(false)
+
   const initials = user
     ? user.name
         .split(' ')
@@ -19,66 +23,77 @@ function Header({ user = null, navLinks = [], notificationCount = 0 }) {
     : ''
 
   return (
-    <header className="app-header">
-      {/* Brand */}
-      <Link to="/" className="header-brand" aria-label="Transcage home">
-        <TcIcon size={28} wordmark />
-      </Link>
+    <>
+      <header className="app-header">
+        {/* Brand */}
+        <Link to="/" className="header-brand" aria-label="Transcage home">
+          <TcIcon size={28} wordmark />
+        </Link>
 
-      {/* Desktop nav links (role-specific, injected by parent) */}
-      {navLinks.length > 0 && (
-        <nav className="header-nav" aria-label="Main navigation">
-          {navLinks.map((link) => (
-            <NavLink
-              key={link.to}
-              to={link.to}
-              className={({ isActive }) =>
-                `header-nav-link${isActive ? ' active' : ''}`
-              }
-              end={link.end}
+        {/* Desktop nav links (role-specific, injected by parent) */}
+        {navLinks.length > 0 && (
+          <nav className="header-nav" aria-label="Main navigation">
+            {navLinks.map((link) => (
+              <NavLink
+                key={link.to}
+                to={link.to}
+                className={({ isActive }) =>
+                  `header-nav-link${isActive ? ' active' : ''}`
+                }
+                end={link.end}
+              >
+                {link.icon && <link.icon size={15} strokeWidth={2} />}
+                {link.label}
+              </NavLink>
+            ))}
+          </nav>
+        )}
+
+        {/* Right-side actions */}
+        <div className="header-actions">
+          {/* Notification bell (only when logged in) */}
+          {user && (
+            <button
+              className="header-icon-btn"
+              aria-label={`Notifications${notificationCount > 0 ? `, ${notificationCount} unread` : ''}`}
+              onClick={() => setDrawerOpen(true)}
             >
-              {link.icon && <link.icon size={15} strokeWidth={2} />}
-              {link.label}
-            </NavLink>
-          ))}
-        </nav>
-      )}
+              <Bell size={18} strokeWidth={1.8} />
+              {notificationCount > 0 && (
+                <span className="header-notif-badge" aria-hidden="true">
+                  {notificationCount > 9 ? '9+' : notificationCount}
+                </span>
+              )}
+            </button>
+          )}
 
-      {/* Right-side actions */}
-      <div className="header-actions">
-        {/* Notification bell (only when logged in) */}
-        {user && (
-          <button
+          {/* Quick track button (always visible) */}
+          <Link
+            to="/track"
             className="header-icon-btn"
-            aria-label={`Notifications${notificationCount > 0 ? `, ${notificationCount} unread` : ''}`}
+            aria-label="Track a parcel"
+            title="Track a parcel"
           >
-            <Bell size={18} strokeWidth={1.8} />
-            {notificationCount > 0 && (
-              <span className="header-notif-badge" aria-hidden="true" />
-            )}
-          </button>
-        )}
+            <Package size={18} strokeWidth={1.8} />
+          </Link>
 
-        {/* Quick track button (always visible) */}
-        <button
-          className="header-icon-btn"
-          aria-label="Track a parcel"
-          title="Track a parcel"
-        >
-          <Package size={18} strokeWidth={1.8} />
-        </button>
+          {/* User avatar / name */}
+          {user && (
+            <button className="header-avatar-btn" aria-label="Open account menu">
+              <span className="header-avatar" aria-hidden="true">
+                {initials}
+              </span>
+              <span className="header-avatar-name">{user.name.split(' ')[0]}</span>
+            </button>
+          )}
+        </div>
+      </header>
 
-        {/* User avatar / name */}
-        {user && (
-          <button className="header-avatar-btn" aria-label="Open account menu">
-            <span className="header-avatar" aria-hidden="true">
-              {initials}
-            </span>
-            <span className="header-avatar-name">{user.name.split(' ')[0]}</span>
-          </button>
-        )}
-      </div>
-    </header>
+      {/* Notification Drawer */}
+      {user && (
+        <NotificationDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
+      )}
+    </>
   )
 }
 

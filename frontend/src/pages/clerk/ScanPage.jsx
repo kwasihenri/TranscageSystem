@@ -11,6 +11,7 @@ import {
 } from '../../services/clerk.service'
 import OtpInput    from '../../components/common/OtpInput'
 import QrScanner   from '../../components/common/QrScanner'
+import { useNotifications } from '../../context/NotificationContext'
 import './ScanPage.css'
 
 function getStationName(id) {
@@ -19,6 +20,7 @@ function getStationName(id) {
 
 function ScanPage() {
   const { user } = useAuth()
+  const { push } = useNotifications()
   const inputRef  = useRef(null)
 
   /* ── Scan state ───────────────────────────────────────── */
@@ -94,18 +96,21 @@ function ScanPage() {
         result = await clerkCheckIn(parcel.trackingId)
         const label = result.status === 'at_origin' ? 'checked in at origin' : 'received at destination'
         setActionSuccess(`✓ Parcel ${label} successfully.`)
+        push({ type: 'status_changed', title: 'Parcel Checked In', body: `${parcel.trackingId} ${label}.`, trackingId: parcel.trackingId })
       } else if (type === 'dispatch') {
         if (!selManifest) { setActionErr('Please select a manifest first.'); setActionLoading(false); return }
         result = await clerkAddToManifest(parcel.trackingId, selManifest)
         setActionSuccess(`✓ Parcel added to manifest ${selManifest}.`)
+        push({ type: 'status_changed', title: 'Parcel Dispatched', body: `${parcel.trackingId} added to manifest ${selManifest}.`, trackingId: parcel.trackingId })
       } else if (type === 'otp') {
         if (otp.trim().length < 6) { setActionErr('Please enter all 6 OTP digits.'); setActionLoading(false); return }
         result = await clerkVerifyOTP(parcel.trackingId, otp)
         setActionSuccess(`✓ OTP verified. Parcel handed over to ${parcel.receiverName}.`)
+        push({ type: 'delivery_complete', title: 'Delivery Complete!', body: `${parcel.trackingId} handed over to ${parcel.receiverName}.`, trackingId: parcel.trackingId })
       }
 
       /* Update history */
-      setHistory((h) => [{ trackingId: parcel.trackingId, action: type, time: new Date() }, ...h.slice(0, 4)])
+      setScanHistory((h) => [{ trackingId: parcel.trackingId, action: type, time: new Date() }, ...h.slice(0, 4)])
       setParcel(result)
     } catch (err) {
       setActionErr(err.message)
