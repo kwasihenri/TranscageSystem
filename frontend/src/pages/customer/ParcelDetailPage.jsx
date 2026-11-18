@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { ArrowLeft, Copy, Check, Share2 } from 'lucide-react'
-import QRCode from 'react-qr-code'
 import { getParcelById } from '../../services/parcel.service'
 import { STATUS_CONFIG, STATIONS } from '../../constants/parcel'
 import TrackingTimeline from '../../components/common/TrackingTimeline'
-import TcIllustration from '../../components/common/TcIllustration'
+import ParcelQrCode    from '../../components/common/ParcelQrCode'
+import TcIllustration  from '../../components/common/TcIllustration'
 import './ParcelDetailPage.css'
 
 function getLocationLabel(parcel, field) {
@@ -154,10 +154,7 @@ function ParcelDetailPage() {
               <div className="card-header">
                 <span className="card-title">QR Label</span>
               </div>
-              <div className="card-body detail-qr-body">
-                <QRCode value={parcel.trackingId} size={140} />
-                <p className="detail-qr-hint">Scan at station to check in / out</p>
-              </div>
+              <ParcelQrCode trackingId={parcel.trackingId} size={140} />
             </div>
 
             {/* Parcel info */}

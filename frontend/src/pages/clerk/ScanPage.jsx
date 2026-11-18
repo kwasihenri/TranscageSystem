@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { Search, ArrowDownToLine, ArrowUpFromLine, Shield, Package, Layers, AlertTriangle } from 'lucide-react'
+import { Search, ArrowDownToLine, ArrowUpFromLine, Shield, Package, Layers, AlertTriangle, Camera } from 'lucide-react'
 import useAuth from '../../hooks/useAuth'
 import { STATIONS, STATUS_CONFIG } from '../../constants/parcel'
 import {
@@ -9,7 +9,8 @@ import {
   clerkVerifyOTP,
   clerkGetManifests,
 } from '../../services/clerk.service'
-import OtpInput from '../../components/common/OtpInput'
+import OtpInput    from '../../components/common/OtpInput'
+import QrScanner   from '../../components/common/QrScanner'
 import './ScanPage.css'
 
 function getStationName(id) {
@@ -35,7 +36,8 @@ function ScanPage() {
   const [actionErr,      setActionErr]      = useState('')
 
   /* ── Scan history (session only) ─────────────────────── */
-  const [history, setHistory] = useState([])
+  const [scanHistory, setScanHistory] = useState([])
+  const [scannerOpen, setScannerOpen] = useState(false)
 
   /* Auto-focus on mount */
   useEffect(() => { inputRef.current?.focus() }, [])
@@ -48,6 +50,20 @@ function ScanPage() {
       })
     }
   }, [parcel])
+
+  /* ── QR camera detected ──────────────────────────────── */
+  function handleQrDetected(value) {
+    setScannerOpen(false)
+    const id = value.trim().toUpperCase()
+    setScanValue(id)
+    setScanErr(''); setParcel(null); setActionSuccess(''); setActionErr('')
+    setScanning(true)
+    clerkScanParcel(id).then((found) => {
+      setScanning(false)
+      if (!found) { setScanErr(`No parcel found for "${id}".`); return }
+      setParcel(found)
+    })
+  }
 
   /* ── Handle scan submit ───────────────────────────────── */
   async function handleScan(e) {
@@ -116,8 +132,31 @@ function ScanPage() {
       </div>
 
       <div className="scan-body">
-        {/* ── Input panel ────────────────────────────── */}
+        {/* ── Camera QR scanner overlay ──────────────── */}
+        {scannerOpen && (
+          <QrScanner
+            active={scannerOpen}
+            onDetected={handleQrDetected}
+            onClose={() => setScannerOpen(false)}
+          />
+        )}
+
+        {/* ── Input panel ───────────────────────────── */}
         <div className="scan-input-panel card">
+          {/* Camera scan button */}
+          <button
+            type="button"
+            className="btn btn-secondary scan-camera-btn"
+            id="clerk-camera-scan-btn"
+            onClick={() => setScannerOpen(true)}
+          >
+            <Camera size={16} /> Scan QR with Camera
+          </button>
+
+          <div className="scan-divider">
+            <span>or enter manually</span>
+          </div>
+
           <form className="scan-form" onSubmit={handleScan}>
             <div className="scan-input-wrap">
               <Search size={16} className="scan-icon" />

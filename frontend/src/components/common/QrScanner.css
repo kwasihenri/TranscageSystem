@@ -1,0 +1,173 @@
+/* =========================================================
+   QrScanner — camera scanner overlay
+   ========================================================= */
+
+.qr-scanner-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+}
+
+/* ── Top bar ───────────────────────────────────────────── */
+
+.qr-scanner-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: rgba(0,0,0,0.6);
+  flex-shrink: 0;
+}
+
+.qr-scanner-title {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.qr-close-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+
+.qr-close-btn:hover { background: rgba(255,255,255,0.22); }
+
+/* ── Camera viewport ───────────────────────────────────── */
+
+.qr-viewport {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #111;
+}
+
+.qr-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.qr-canvas {
+  display: none;  /* used for pixel capture only */
+}
+
+/* ── Scan frame ────────────────────────────────────────── */
+
+.qr-frame {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Semi-transparent mask outside the frame */
+.qr-frame::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  /* cut out the scan frame */
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='black'/%3E%3C/svg%3E");
+}
+
+/* Four corner brackets */
+.qr-corner {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border: 3px solid #fff;
+  border-radius: 2px;
+}
+
+.qr-corner--tl { top: 0; left: 0; border-right: none; border-bottom: none; }
+.qr-corner--tr { top: 0; right: 0; border-left: none; border-bottom: none; }
+.qr-corner--bl { bottom: 0; left: 0; border-right: none; border-top: none; }
+.qr-corner--br { bottom: 0; right: 0; border-left: none; border-top: none; }
+
+/* Animated sweep line */
+.qr-scan-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(to right, transparent 0%, #2563eb 30%, #60a5fa 50%, #2563eb 70%, transparent 100%);
+  box-shadow: 0 0 8px #3b82f6;
+  animation: qr-sweep 2.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  border-radius: 1px;
+}
+
+@keyframes qr-sweep {
+  0%   { top: 4px; }
+  50%  { top: calc(100% - 6px); }
+  100% { top: 4px; }
+}
+
+/* ── Overlay states ────────────────────────────────────── */
+
+.qr-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: rgba(0,0,0,0.7);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  padding: 24px;
+  z-index: 3;
+}
+
+.qr-overlay svg { opacity: 0.6; }
+
+.qr-overlay--error { background: rgba(0,0,0,0.85); }
+.qr-overlay-sub    { font-size: 12.5px; font-weight: 400; opacity: 0.75; margin: 0; }
+
+.qr-overlay--found { background: rgba(22, 163, 74, 0.85); }
+
+.qr-found-tick {
+  font-size: 48px;
+  line-height: 1;
+  animation: pop-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes pop-in {
+  from { transform: scale(0); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+/* ── Bottom hint ───────────────────────────────────────── */
+
+.qr-scanner-hint {
+  text-align: center;
+  font-size: 12.5px;
+  color: rgba(255,255,255,0.55);
+  padding: 12px 20px 20px;
+  flex-shrink: 0;
+  margin: 0;
+}
