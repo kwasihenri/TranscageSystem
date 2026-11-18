@@ -20,6 +20,7 @@ import ClerkParcelsPage from './pages/clerk/ClerkParcelsPage'
 // Driver sub-pages
 import MyJobsPage    from './pages/driver/MyJobsPage'
 import JobDetailPage from './pages/driver/JobDetailPage'
+import P2PJobPage    from './pages/driver/P2PJobPage'
 import LocationPage  from './pages/driver/LocationPage'
 import CustomerDashboard from './pages/dashboards/CustomerDashboard'
 import ClerkDashboard    from './pages/dashboards/ClerkDashboard'
@@ -152,6 +153,11 @@ function AppRoutes() {
         <Route path="/driver/jobs/:id" element={
           <ProtectedRoute allowedRoles={['driver']}>
             <JobDetailPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/driver/p2p/:id" element={
+          <ProtectedRoute allowedRoles={['driver']}>
+            <P2PJobPage />
           </ProtectedRoute>
         } />
         <Route path="/driver/location" element={

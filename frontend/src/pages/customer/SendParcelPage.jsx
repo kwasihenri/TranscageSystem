@@ -104,23 +104,45 @@ function SendParcelPage() {
 
   /* ── Confirmation screen ────────────────────────────── */
   if (submitted) {
+    const isLocal = submitted.deliveryType !== 'intercity'
     return (
       <div className="send-page">
         <div className="send-wizard">
           <div className="confirm-screen">
-            <div className="confirm-icon">📦</div>
+            <div className="confirm-icon">{isLocal ? '🛵' : '📦'}</div>
             <h1 className="confirm-title">Parcel Booked!</h1>
-            <p className="confirm-subtitle">Your parcel has been registered and is ready for drop-off.</p>
+            <p className="confirm-subtitle">
+              {isLocal
+                ? 'A driver will come to pick up from your address. Share your Pickup OTP with them on arrival.'
+                : 'Your parcel has been registered and is ready for drop-off at the station.'}
+            </p>
 
             <div className="confirm-tracking-id">
               <span className="confirm-id-label">Tracking ID</span>
               <code className="confirm-id-code">{submitted.trackingId}</code>
             </div>
 
-            <div className="confirm-qr">
-              <QRCode value={submitted.trackingId} size={160} />
-              <p className="confirm-qr-hint">Show or scan this code at the station</p>
-            </div>
+            {isLocal ? (
+              /* Intracity: show TWO OTPs */
+              <div className="confirm-otps">
+                <div className="confirm-otp-row">
+                  <span className="confirm-otp-label">📤 Pickup OTP</span>
+                  <code className="confirm-otp-code">{submitted.pickupOtp || submitted.otp}</code>
+                  <span className="confirm-otp-hint-sm">Give this to driver on pickup</span>
+                </div>
+                <div className="confirm-otp-row">
+                  <span className="confirm-otp-label">📥 Delivery OTP</span>
+                  <code className="confirm-otp-code">{submitted.deliveryOtp}</code>
+                  <span className="confirm-otp-hint-sm">Receiver gives this to driver on drop-off</span>
+                </div>
+              </div>
+            ) : (
+              /* Intercity: show QR code */
+              <div className="confirm-qr">
+                <QRCode value={submitted.trackingId} size={160} />
+                <p className="confirm-qr-hint">Show or scan this code at the station</p>
+              </div>
+            )}
 
             <div className="confirm-actions">
               <Link to={`/customer/parcels/${submitted.trackingId}`} className="btn btn-primary btn-full">
@@ -132,9 +154,11 @@ function SendParcelPage() {
               >
                 Send another parcel
               </button>
-              <button className="btn btn-ghost btn-full" onClick={() => window.print()}>
-                <Printer size={15} /> Print label
-              </button>
+              {!isLocal && (
+                <button className="btn btn-ghost btn-full" onClick={() => window.print()}>
+                  <Printer size={15} /> Print label
+                </button>
+              )}
             </div>
           </div>
         </div>

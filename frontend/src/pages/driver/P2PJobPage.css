@@ -1,0 +1,246 @@
+/* =========================================================
+   P2PJobPage — Intracity door-to-door delivery execution
+   ========================================================= */
+
+.p2p-page { display: flex; flex-direction: column; flex: 1; }
+
+/* ── Topbar ─────────────────────────────────────────────── */
+
+.p2p-topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-primary);
+}
+
+.p2p-title-wrap { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.p2p-tag { font-size: 11px; font-weight: 700; color: var(--text-muted); letter-spacing: 0.04em; }
+.p2p-job-id { font-size: 14px; font-weight: 700; color: var(--text-primary); font-family: monospace; }
+
+/* ── Progress strip ─────────────────────────────────────── */
+
+.p2p-progress {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0;
+  padding: 14px 20px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-subtle);
+  overflow-x: auto;
+}
+
+.p2p-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  position: relative;
+  flex: 1;
+}
+
+.p2p-step-dot {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid var(--border-subtle);
+  background: var(--bg-primary);
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  transition: all 0.2s;
+}
+
+.p2p-step.done .p2p-step-dot  { background: var(--success, #22c55e); border-color: var(--success, #22c55e); color: #fff; }
+.p2p-step.active .p2p-step-dot { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 0 0 4px rgba(37,99,235,0.15); }
+
+.p2p-step-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.p2p-step.active .p2p-step-label { color: var(--accent); }
+.p2p-step.done .p2p-step-label   { color: var(--success, #22c55e); }
+
+.p2p-step-line {
+  position: absolute;
+  top: 13px;
+  right: calc(50% + 13px);
+  left: calc(-50% + 13px);
+  height: 2px;
+  background: var(--border-subtle);
+  z-index: 0;
+}
+
+.p2p-step.done .p2p-step-line,
+.p2p-step.active .p2p-step-line {
+  background: var(--success, #22c55e);
+}
+
+/* ── Body ───────────────────────────────────────────────── */
+
+.p2p-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-top: 16px;
+  padding-bottom: 32px;
+}
+
+/* ── Route ──────────────────────────────────────────────── */
+
+.p2p-route { display: flex; flex-direction: column; gap: 0; }
+
+.p2p-point { display: flex; align-items: flex-start; gap: 12px; padding: 8px 0; }
+
+.p2p-point-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.p2p-point-dot--blue  { background: var(--accent); }
+.p2p-point-dot--green { background: var(--success, #22c55e); }
+
+.p2p-route-line {
+  width: 2px;
+  height: 20px;
+  background: var(--border-subtle);
+  margin-left: 5px;
+}
+
+.p2p-point-label { font-size: 11px; font-weight: 700; color: var(--text-muted); letter-spacing: 0.04em; text-transform: uppercase; }
+.p2p-point-addr  { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-top: 2px; }
+
+/* ── Info dl ────────────────────────────────────────────── */
+
+.p2p-dl { display: grid; gap: 10px; margin: 0; }
+.p2p-dl > div { display: flex; justify-content: space-between; gap: 8px; }
+.p2p-dl dt { font-size: 12.5px; color: var(--text-muted); }
+.p2p-dl dd { font-size: 13px; font-weight: 600; color: var(--text-primary); margin: 0; text-align: right; }
+
+/* ── Accept panel ───────────────────────────────────────── */
+
+.p2p-accept-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+/* ── OTP panel ──────────────────────────────────────────── */
+
+.p2p-otp-panel { }
+
+.p2p-otp-hint {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0 0 14px;
+  line-height: 1.5;
+}
+
+.p2p-otp-err {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  color: var(--error, #ef4444);
+  margin-top: 10px;
+  font-weight: 500;
+}
+
+.p2p-attempts { color: var(--warning, #f59e0b); }
+
+/* ── Locked banner ──────────────────────────────────────── */
+
+.p2p-locked-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  background: var(--error-light, #fee2e2);
+  color: var(--error, #ef4444);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ── Nav hint ───────────────────────────────────────────── */
+
+.p2p-nav-hint { }
+
+/* ── Success ────────────────────────────────────────────── */
+
+.p2p-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 32px 16px;
+}
+
+/* ── Error text ─────────────────────────────────────────── */
+
+.p2p-err {
+  font-size: 12.5px;
+  color: var(--error, #ef4444);
+  margin: 8px 0 0;
+  font-weight: 500;
+}
+
+/* ── Fail modal ─────────────────────────────────────────── */
+
+.p2p-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 800;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 16px;
+}
+
+.p2p-modal {
+  background: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  padding: 24px 20px;
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: modal-rise 0.25s ease;
+}
+
+@keyframes modal-rise {
+  from { transform: translateY(40px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.p2p-modal-title { font-size: 16px; font-weight: 800; color: var(--text-primary); margin: 0; }
+.p2p-modal-hint  { font-size: 13px; color: var(--text-muted); margin: 0; }
+
+.p2p-modal-textarea {
+  resize: vertical;
+  min-height: 72px;
+  font-family: inherit;
+}
+
+.p2p-modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.p2p-modal-actions .btn { flex: 1; justify-content: center; }

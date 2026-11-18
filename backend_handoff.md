@@ -335,7 +335,92 @@ GET /api/admin/drivers   [protected: admin]
     ]
 ```
 
+### 5.9 P2P — Intracity Door-to-Door Delivery
+
+```
+GET  /api/p2p/jobs              [protected: driver]
+  Returns all OPEN P2P jobs (status = 'pending') not yet taken by another driver.
+  → 200 [ { id, pickupAddress, dropoffAddress, description, category,
+              weight, receiverName, receiverPhone, status, createdAt } ]
+
+GET  /api/p2p/jobs/mine         [protected: driver]
+  Returns jobs accepted by req.user.id — status IN ('accepted','picked_up','delivered','failed')
+  → 200 [ ...same shape as above ]
+
+GET  /api/p2p/jobs/:id          [protected: driver | customer]
+  → 200 { ...full P2P job + history }
+
+POST /api/p2p/jobs/:id/accept   [protected: driver]
+  Validates: job status = 'pending'
+  Sets: status → 'accepted', driver_id = req.user.id
+  → 200 { ...updated job }
+
+POST /api/p2p/jobs/:id/pickup   [protected: driver]
+  Body: { otp }
+  Validates: job status = 'accepted', otp matches pickup_otp
+  Sets: status → 'picked_up'
+  On 3 consecutive wrong OTPs: set pickup_locked = true (return 403)
+  → 200 { ...updated job }
+  → 400 { message: 'Incorrect OTP.' }
+  → 403 { message: 'OTP locked — 3 failed attempts.' }
+
+POST /api/p2p/jobs/:id/deliver  [protected: driver]
+  Body: { otp }
+  Validates: job status = 'picked_up', otp matches delivery_otp
+  Sets: status → 'delivered'
+  On 3 consecutive wrong OTPs: set delivery_locked = true (return 403)
+  → 200 { ...updated job }
+  → 400 { message: 'Incorrect OTP.' }
+  → 403 { message: 'OTP locked — 3 failed attempts.' }
+
+POST /api/p2p/jobs/:id/fail     [protected: driver]
+  Body: { reason }
+  Validates: job status IN ('accepted','picked_up')
+  Sets: status → 'failed', fail_reason = reason
+  → 200 { ...updated job }
+```
+
+**P2P Jobs DB Table:**
+```sql
+CREATE TABLE p2p_jobs (
+  id               VARCHAR(36)  PRIMARY KEY DEFAULT (UUID()),
+  parcel_id        VARCHAR(36)  NOT NULL REFERENCES parcels(id),
+  driver_id        VARCHAR(36)  NULL REFERENCES users(id),
+  pickup_address   TEXT         NOT NULL,
+  dropoff_address  TEXT         NOT NULL,
+  pickup_otp       CHAR(6)      NOT NULL,     -- generated on booking, shown to sender
+  delivery_otp     CHAR(6)      NOT NULL,     -- generated on booking, shown to receiver
+  pickup_locked    BOOLEAN      NOT NULL DEFAULT FALSE,
+  delivery_locked  BOOLEAN      NOT NULL DEFAULT FALSE,
+  pickup_attempts  TINYINT      NOT NULL DEFAULT 0,
+  delivery_attempts TINYINT     NOT NULL DEFAULT 0,
+  fail_reason      TEXT         NULL,
+  status           ENUM('pending','accepted','picked_up','delivered','failed','returned')
+                               NOT NULL DEFAULT 'pending',
+  created_at       DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  accepted_at      DATETIME     NULL,
+  picked_up_at     DATETIME     NULL,
+  delivered_at     DATETIME     NULL
+);
+```
+
+**P2P Parcel Booking:** When a customer books with `deliveryType = 'local'`:
+1. Create the `parcels` row (status `'created'`)
+2. Create the `p2p_jobs` row with two separate OTPs: `pickup_otp` (for sender) and `delivery_otp` (for receiver)
+3. Return both OTPs in the parcel response: `{ ...parcel, pickupOtp, deliveryOtp }`
+
+**P2P Status Machine:**
+```
+pending → accepted   (driver accepts)
+accepted → picked_up  (driver verifies sender pickup_otp)
+picked_up → delivered (driver verifies receiver delivery_otp)
+accepted|picked_up → failed (driver marks failed attempt)
+```
+
+---
+
 ### 5.8 WebRTC Call Signaling
+
 
 ```
 POST   /api/calls/initiate     [protected: driver]
